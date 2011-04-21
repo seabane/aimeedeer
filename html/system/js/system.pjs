@@ -1,0 +1,44 @@
+var screenFill = null;
+var testData = {objectId:"1",desc:"",title:"mie~, world!",next:{type:"sentance",objectId:"2"}};
+
+//some size and coodinate default value
+var dW = 960;
+var dH = 540;
+var dW_WHO = 250;
+var dH_WHO = 300;
+var displayPoint = [{x:dW * 3/8,y:(dH - dH_WHO) * 2/3}
+    		   ,{x:dW * 5/8,y:(dH - dH_WHO) * 2/3}];
+
+/* @pjs preload="/png/aimee1"; */
+PImage img;
+void setup(){
+     size(dW,dH);
+     screenFill = new sea.ui.ScreenFill(width,height,processing,displayPoint);
+     screenFill.addWidget(new sea.ui.WidgetSentence(testData));
+     
+     img = loadImage("/png/aimee1");
+     frameRate(30);
+}
+
+void draw(){
+     background(255);
+     //half width ,buttom hiegth 
+     image(img,dW/2 - dW_WHO/2,dH - dH_WHO,dW_WHO,dH_WHO);
+     noStroke();
+     screenFill.draw();
+     refreshFrame();
+}
+
+int frameParaHeigth = 50;
+int frameCurrentH = 0;
+int frameCurrentAdd = 1;
+void refreshFrame(){
+     for(int i = 0;i < displayPoint.length;i++){
+     	     var point = displayPoint[i];
+	     frameCurrentH += frameCurrentAdd;
+	     point.x += frameCurrentAdd;
+	     if(abs(frameCurrentH) == frameParaHeigth){
+	              frameCurrentAdd = frameCurrentAdd * -1;    			   
+	     }
+     }
+}

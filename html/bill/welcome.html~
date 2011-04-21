@@ -1,0 +1,8 @@
+<!DOCTYPE HTML>
+<html>
+  <body>
+    <script src="../lib/jquery.js"
+    <script src="../lib/processing.js"></script>
+    <canvas data-processing-sources="js/welcome.pjs"></canvas>
+  </body>
+<html>
