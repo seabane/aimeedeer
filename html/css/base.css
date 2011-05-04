@@ -1,7 +1,7 @@
 /* aimeedeer css base */
 body
 {
-    background-color:#CCFFEE;
+    background-color:#1C3D52;
 }
 
 .index
@@ -11,45 +11,50 @@ body
 }
 .header
 {
-   background-color:#DDDDDD;
-   border:1px solid black;
+   background-color:black;
+   font
+   border:1px solid white;
    clear:both;
+   height:100px;
    padding:0 0 0 5px;
 }
 .body
 {
    clear:both;
 }
-.body_left
-{
-   background-color:#DDDDDD;
-   border:1px solid black;
-   width:180px;
-   float:left;
-   margin:6px 0px 6px 0;
-   padding:2px 5px;
-}
 
 .body_center
 {
-   border:1px solid black;
+   border:1px solid white;
    width:730px;
-   margin:6px 0 6px 6px;
+   margin:6px 0 6px 0px;
    float:left;
-   padding:2px 5px;
+}
+.body_right
+{
+    
 }
 
 .footer
 {
-   background-color:#DDDDDD;
-   border:1px solid black;
+   background-color:#000000;
+   border:1px solid white;
    clear:both;
    text-align:center;
 }
 
 .content
 {
-   background-color:#DDDDDD;
-   margin:10px 3px;
-   padding:2px 5px;
+   background-color:white;
+   margin:10px 10px;
+   padding:5px 0px;
+}
+.content p
+{
+   padding:0 5px;
+}
+.content_bar
+{
+   background-color:#EEEEEE;
+   padding:0 5px;
 }
