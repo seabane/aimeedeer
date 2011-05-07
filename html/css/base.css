@@ -4,42 +4,30 @@ body
     background-color:#4D4D4D;
 }
 
-.index
+.content
 {
    width:950px;
-   margin:0 auto;
+   margin:15px auto;
 }
 .header
 {
-   background-image:url(image/header.png);
    clear:both;
-   height:215px;
    padding:0 0 0 5px;
 }
-.meun
-{
-    background-image:url(image/meun.png);
-    height:121px;
-}
-.body
-{
-   clear:both;
-}
 
-.body_center
+.center-box
 {
    width:730px;
    margin:6px 0 6px 0px;
    float:left;
 }
-.body_right
+.right-box
 {
     
 }
 
 .footer
 {
-   background-image:url(image/footer.png);
    clear:both;
    height:18px;
    font-weight:bolder;
@@ -47,17 +35,17 @@ body
    text-align:right;
 }
 
-.content
+.entry-box
 {
    background-color:#CBE0ED;
    margin:10px 10px;
    padding:0px 0px 5px 0px;
 }
-.content p
+.entry-box p
 {
    padding:0 5px;
 }
-.content_bar
+.entry-title
 {
    background-color:#EEEEEE;
    padding:0 5px;
