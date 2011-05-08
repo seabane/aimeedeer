@@ -3,27 +3,39 @@
 <html>
   <head>
     <title>Aimeedeer</title>
-    <link rel="stylesheet" type="text/css" href="./css/base.css" />
+    <link rel="stylesheet" type="text/css" href="css/jquery-theme/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="css/jquery-theme/fg.menu.css" />
+    <link rel="stylesheet" type="text/css" href="css/base.css" />
+    <script type="text/javascript" src="js/lib/jquery.js"></script>
+    <script type="text/javascript" src="js/lib/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/lib/fg.menu.js"></script>
   <head>
   <body>
     <div class="content">
       <div class="header">
 	<img src="resource/pic/logo_w.png" />
       </div>
-      <div class="center-box">
-	  <div class="entry-box">
-	    <div class="entry-title">
-	      2011.5.4 &nbsp;&nbsp;&nbsp;新的网站
-	    </div>
-	    <p>
-	       展示MM & HR的生活，事情，想法等，让我们在走向梦想的路上不孤单。
-	    </p>
+      <div class="left-box">
+	  <div id="menu">
+	    <ul>
+	      <li> Home </li>
+	      <li> Blog </li>
+	    </ul>
 	  </div>
+	  <a href="meun" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"  id="menu-btn">菜单</a>
+      </div>
+      <div class="center-box">
       </div>
       <div class="footer">
 	v0.3 2011.5.6 02:06
       </div>
     </div>
+
+    <script>
+      $("#menu-btn").menu({
+          content:$("#menu").html()
+      });
+    </script>
   </body>
 </html>
 
