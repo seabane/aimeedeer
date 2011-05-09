@@ -12,7 +12,7 @@ body
 .header
 {
    clear:both;
-   padding:0 0 0 5px;
+   padding:20px 0 20px 5px;
 }
 
 .center-box
@@ -53,21 +53,3 @@ body
    padding:0 5px;
 }
 
-#feedback { font-size: 1.4em; }
-#menu .ui-selecting { background: #FECA40; }
-#menu .ui-selected { background: #F39814; color: white; }
-#menu { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-#menu li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
-
-.fg-button { clear:left; margin:0 4px 40px 20px; padding: .4em 1em; text-decoration:none !important; cursor:pointer; position: relative; text-align: center; zoom: 1; }
-    .fg-button .ui-icon { position: absolute; top: 50%; margin-top: -8px; left: 50%; margin-left: -8px; }
-    a.fg-button { float:left;  }
-    button.fg-button { width:auto; overflow:visible; } /* removes extra button width in IE */
-    
-    .fg-button-icon-left { padding-left: 2.1em; }
-    .fg-button-icon-right { padding-right: 2.1em; }
-    .fg-button-icon-left .ui-icon { right: auto; left: .2em; margin-left: 0; }
-    .fg-button-icon-right .ui-icon { left: auto; right: .2em; margin-left: 0; }
-    .fg-button-icon-solo { display:block; width:8px; text-indent: -9999px; }     /* solo icon buttons must have block properties for the text-indent to work */ 
-    
-    .fg-button.ui-state-loading .ui-icon { background: url(spinner_bar.gif) no-repeat 0 0; }
