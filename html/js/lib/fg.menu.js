@@ -19,15 +19,23 @@ $.fn.menu = function(options){
 	var m = new Menu(caller, options);	
 	allUIMenus.push(m);
 	
+	/*
 	$(this)
 	.mousedown(function(){
 		if (!m.menuOpen) { m.showLoading(); };
-	})	
+	})
 	.click(function(){
 		if (m.menuOpen == false) { m.showMenu(); }
 		else { m.kill(); };
 		return false;
-	});	
+	})
+	*/
+	$(this)
+	.hover(function(){
+		if (!m.menuOpen) { m.showLoading();};
+		if (m.menuOpen == false) { m.showMenu(); }
+		return false;
+	});
 };
 
 function Menu(caller, options){
@@ -245,7 +253,8 @@ function Menu(caller, options){
 		menu.kill();
 		// edit this for your own custom function/callback:
 		$('#menuSelection').text($(item).text());	
-		location.href = $(item).attr('href');
+		//location.href = $(item).attr('href');
+		callBackForMenu($(item));
 	};
 };
 
