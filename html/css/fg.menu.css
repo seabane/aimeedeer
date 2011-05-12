@@ -115,8 +115,7 @@ Date:		September 2008
 
 .hidden { position:absolute; top:0; left:-9999px; width:1px; height:1px; overflow:hidden; }
 
-.fg-menu-container {font-size:0.8em;}
-.fg-button { font-size:0.8em;clear:left; margin:0 4px 40px 0px; padding: .4em 1em; text-decoration:none !important; cursor:pointer; position: relative; text-align: center; zoom: 1; }
+.fg-button {clear:left; margin:0 4px 40px 0px; padding: .4em 1em; text-decoration:none !important; cursor:pointer; position: relative; text-align: center; zoom: 1; }
 .fg-button .ui-icon { position: absolute; top: 50%; margin-top: -8px; left: 50%; margin-left: -8px; }
 button.fg-button { width:auto; overflow:visible; } /* removes extra button width in IE */
 	

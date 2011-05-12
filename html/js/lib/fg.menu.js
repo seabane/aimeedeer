@@ -31,11 +31,6 @@ $.fn.menu = function(options){
 		else { m.kill(); };
 		return false;
 	})
-	.hover(function(){
-		if (!m.menuOpen) { m.showLoading();};
-		if (m.menuOpen == false) { m.showMenu(); }
-		return false;
-	});
 };
 
 function Menu(caller, options){
