@@ -13,30 +13,28 @@
   <body>
     <div class="content">
 		<div class="header">
-		    <a id="menu-btn" href="#" class="fg-button fg-button-icon-right">
-	                 <img height="50px" width="240px" src="resource/pic/logo_w.png" /><span class="ui-icon ui-icon-triangle-1-s"></span>
-		    </a>
-		    <div id="menuContent" class="hidden">
-		         <ul>
-			     <li><a href="#">Blog</a>
-			         <ul>
-				     <li><a p="blog-mm" href="1111">mm</a></li>
-				     <li><a p="blog-hr" href="#">hr</a></li>
-				</ul>
-			     </li>
-			     <li><a p="bill" href="#">Bill</a></li>
-			 </ul>
-		    </div>
-		    
+			<img src="resource/pic/logo_w.png" />
 		</div>
-		
+		<div class="left-box">
+			<a id="menu-btn" href="#" class="fg-button fg-button-icon-right ui-widget ui-corner-all ui-state-default"><span class="ui-icon ui-icon-triangle-1-s"></span>click</a>
+			<div id="menuContent" class="hidden">
+				<ul>
+				  <li><a href="#">Blog</a>
+					<ul>
+						<li><a p="blog-mm" href="1111">mm</a></li>
+						<li><a p="blog-hr" href="#">hr</a></li>
+					</ul>
+				  </li>
+				  <li><a p="bill" href="#">Bill</a></li>
+				</ul>
+			</div>
+		</div>
     </div>
 
     <script>
 		$("#menu-btn").menu({
 			content:$("#menuContent").html(),
-			flyOut:true,
-		        width:240
+			flyOut:true
 		});
 		function callBackForMenu(item){
 			var p = item.attr("p");
@@ -47,7 +45,6 @@
 					title: item.html()
 					,height:"700"
 					,width:"600"
-		                        ,callerOnState:"1"
 					,close: function(event, ui) { $(this).remove(); }
 				});
 			}

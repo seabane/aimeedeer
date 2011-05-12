@@ -12,9 +12,7 @@ body
 .header
 {
    clear:both;
-   padding:5px auto;
-   text-align:center;
-   vertical-align:middle;
+   padding:20px 0 20px 5px;
 }
 
 .center-box
@@ -25,7 +23,7 @@ body
 }
 .left-box
 {
-    width:100px;
+    width:220px;
     margin:6px 0 6px 0px;
     float:left;
 }
