@@ -1,58 +1,37 @@
-<!DOCTYPE HTML>
+﻿<!DOCTYPE HTML>
 <meta charset="utf-8">
 <html>
   <head>
     <title>Aimeedeer</title>
-    <link rel="stylesheet" type="text/css" href="css/theme/jquery-ui.css" />
-    <link rel="stylesheet" type="text/css" href="css/fg.menu.css" />
     <link rel="stylesheet" type="text/css" href="css/base.css" />
-    <script type="text/javascript" src="js/lib/jquery.js"></script>
-    <script type="text/javascript" src="js/lib/jquery-ui.js"></script>
-    <script type="text/javascript" src="js/lib/fg.menu.js"></script>
   <head>
   <body>
     <div class="content">
 		<div class="header">
-		    <a id="menu-btn" href="#" class="fg-button fg-button-icon-right">
-	                 <img height="50px" width="240px" src="resource/pic/logo_w.png" /><span class="ui-icon ui-icon-arrowreturnthick-1-e"></span>
-		    </a>
-		    <div id="menuContent" class="hidden">
-		         <ul>
-			     <li><a href="#">Blog</a>
-			         <ul>
-				     <li><a p="blog-mm" href="1111">mm</a></li>
-				     <li><a p="blog-hr" href="#">hr</a></li>
-				</ul>
-			     </li>
-			     <li><a p="bill" href="#">Bill</a></li>
-			 </ul>
-		    </div>
-		    
+	      <img height="50px" width="240px" src="resource/pic/logo_w.png" /></span>
 		</div>
-		
+		<div class="left-box">
+			<form class="login_form" method="post" action="/action/user/login">
+				<table>
+					<tr><td>用户名:</td><td><input name="username" type="text"/></td></tr>
+					<tr><td>密码:</td><td><input name="password" type="password"/></td></tr>
+					<tr><td colspan="2" align="right"><input value="登录" type="submit"/></td></tr>
+				</table>
+			</form>
+		</div>
+		<div class="center-box">
+			<div class="entry-box">
+				<div class="entry-title">输入</div>
+				<p><form method="post" action="/action/casesheet/add"><input type="text" name="caseText" style="width:600px"/><input type="submit" value="提交"/></form></p>
+			</div>
+			<div class="entry-box">
+				<div class="entry-title">内容</div>
+				<p><table></table></p>
+			</div>
+		</div>
+		<div class="footer">
+		</div>
     </div>
-
-    <script>
-		$("#menu-btn").menu({
-			content:$("#menuContent").html(),
-			flyOut:true,
-		        width:240
-		});
-		function callBackForMenu(item){
-			var p = item.attr("p");
-			if(!!p){
-				var a = $('<div></div>')
-				.html('hello~')
-				.dialog({
-					title: item.html()
-					,height:"700"
-					,width:"600"
-		                        ,callerOnState:"1"
-					,close: function(event, ui) { $(this).remove(); }
-				});
-			}
-		}
-    </script>
   </body>
 </html>
 
