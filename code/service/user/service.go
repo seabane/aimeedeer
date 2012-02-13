@@ -2,6 +2,7 @@ package main
 
 import (
     "github.com/hoisie/web.go"
+	"strings"
 )
 
 func loginProcess(val string) string { 
