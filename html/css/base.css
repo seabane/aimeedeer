@@ -1,7 +1,7 @@
 /* aimeedeer css base */
 body
 {
-    background-color:#4D4D4D;
+    background-color:#5D5D5D;
 	font-size: 12px;
 }
 
@@ -9,7 +9,8 @@ body
 .content
 {
    margin:15px auto;
-   width:1000px;
+   width:890px;
+   background-color:#3D3D3D;
 }
 
 .left-box
