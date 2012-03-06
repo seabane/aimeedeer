@@ -4,7 +4,7 @@
   <head>
     <title>Aimeedeer</title>
     <link rel="stylesheet" type="text/css" href="/css/base.css" />
-	<link rel="stylesheet" type="text/css" href="/script/lib/jquery.js" />
+    <script type="text/javascript" src="/script/lib/jquery.js" ></script>
   <head>
   <body>
     <div class="content">
@@ -35,8 +35,9 @@
     </div>
 	<script>
 		$("#loginBTN").click(function(){
-			$.getJSON('http://seabane.no-ip.org:8080/user/login', function(data) {
-			  $.each(data,{username:$("#username").val(),password=$("#password").val()}, function(key, val) {
+		alert("ok");
+			$.getJSON('/service/user/login',{username:$("#username").val(),password:$("#password").val()},function(data) {
+			  $.each(data,function(key, val) {
 				alert(key + "," + val);
 			  });
 			});

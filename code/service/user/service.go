@@ -5,21 +5,22 @@ import (
    "log"
    "json"
    "github.com/hoisie/web.go"
+   "rand"
+   "strconv"
 )
-
-type jsonRes struct {
-   isSuc boolean
-   errMsg string
-   data 
-}
 
 func Login(ctx *web.Context,v string) string { 
    log.Printf("start login");
+
+   if getSession(ctx,"user") != nil{
+      b,_ := json.Marshal(getSession(ctx,"user"));
+      return string(b);
+   }
    
    prams := ctx.Request.Params;
    
    db := GetDbClient();
-   if(db == nil){
+   if db == nil {
       return "db conn err";
    }
 
@@ -41,14 +42,14 @@ func Login(ctx *web.Context,v string) string {
 
    db.Close();
 
-   log.Printf("query user ok");
-
-   if(u == nil){
-      b,_ := json.Marshal(jsonRes{isSuc:false},errMsg:"have no user found."});
-	  return string(b);
+   if u == nil || len(u) == 0 {
+      log.Printf("eerrrr");
+      b,_ := json.Marshal(map[string]string{"ecode":"no user","emsg":"has no user found."});
+      return string(b);
    }
 
-   b,_ := json.Marshal(jsonRes{isSuc:true},data:u});
+   b,_ := json.Marshal(u);
+   putSession(ctx,"user",u);
    return string(b);
 }
 
@@ -70,6 +71,30 @@ func Register(ctx *web.Context,v string) string{
 
    return "ok";
 }
+
+var sessionMap map[string]map[string]interface{};
+
+func putSession(ctx *web.Context,key string,value interface{}){
+   sessionid, _ := ctx.GetSecureCookie("sessionid");
+   if sessionid == ""{
+      sessionid = strconv.Itoa64(rand.Int63())
+      ctx.SetSecureCookie("sessionid", sessionid, 3600)
+      log.Printf("create session:session id=%v",sessionid);
+   }
+   if sessionMap == nil{
+      sessionMap = map[string]map[string]interface{}{sessionid:nil};
+   }
+   if sessionMap[sessionid] == nil{
+      sessionMap[sessionid] = map[string] interface{}{key:value};
+   }else{
+      sessionMap[sessionid][key] = value;
+   }
+}
+
+func getSession(ctx *web.Context,key string) interface{}{
+   sessionid, _ := ctx.GetSecureCookie("sessionid");
+   return sessionMap[sessionid][key];
+}
  
 
 func GetDbClient() *mysql.Client{
@@ -85,7 +110,8 @@ func GetDbClient() *mysql.Client{
 
 
 func main() {
-    web.Get("/user/login?(.*)", Login);
-    web.Get("/user/register?(.*)", Register);
+    web.Config.CookieSecret = "66d337519aa14ac4ac150f8569e2b719";
+    web.Get("/service/user/login?(.*)", Login);
+    web.Get("/service/user/register?(.*)", Register);
     web.Run("0.0.0.0:8080");
 }
