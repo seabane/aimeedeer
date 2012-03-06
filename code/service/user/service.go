@@ -7,10 +7,10 @@ import (
    "github.com/hoisie/web.go"
 )
 
-type user struct {
-   username string
-   password string
-   nickname string
+type jsonRes struct {
+   isSuc boolean
+   errMsg string
+   data 
 }
 
 func Login(ctx *web.Context,v string) string { 
@@ -44,10 +44,11 @@ func Login(ctx *web.Context,v string) string {
    log.Printf("query user ok");
 
    if(u == nil){
-      return "NO_DATA";
+      b,_ := json.Marshal(jsonRes{isSuc:false},errMsg:"have no user found."});
+	  return string(b);
    }
 
-   b,_ := json.Marshal(u);
+   b,_ := json.Marshal(jsonRes{isSuc:true},data:u});
    return string(b);
 }
 

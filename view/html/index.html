@@ -4,6 +4,7 @@
   <head>
     <title>Aimeedeer</title>
     <link rel="stylesheet" type="text/css" href="/css/base.css" />
+	<link rel="stylesheet" type="text/css" href="/script/lib/jquery.js" />
   <head>
   <body>
     <div class="content">
@@ -15,14 +16,14 @@
 				<table>
 					<tr><td>用户名:</td><td><input name="username" type="text"/></td></tr>
 					<tr><td>密码:</td><td><input name="password" type="password"/></td></tr>
-					<tr><td colspan="2" align="right"><input value="登录" type="submit"/></td></tr>
+					<tr><td colspan="2" align="right"><input id="loginBTN" value="登录" type="button"/></td></tr>
 				</table>
 			</form>
 		</div>
 		<div class="center-box">
 			<div class="entry-box">
 				<div class="entry-title">输入</div>
-				<p><form method="post" action="/action/casesheet/add"><input type="text" name="caseText" style="width:600px"/><input type="submit" value="提交"/></form></p>
+				<p><form method="post" action="/action/casesheet/add"><input type="text" name="caseText" style="width:600px"/><input type="button" value="提交"/></form></p>
 			</div>
 			<div class="entry-box">
 				<div class="entry-title">内容</div>
@@ -33,6 +34,9 @@
 		</div>
     </div>
 	<script>
+		$("#loginBTN").click(function(){
+			
+		});
 	</script>
   </body>
 </html>
