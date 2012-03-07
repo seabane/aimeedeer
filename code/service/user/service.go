@@ -43,7 +43,6 @@ func Login(ctx *web.Context,v string) string {
    db.Close();
 
    if u == nil || len(u) == 0 {
-      log.Printf("eerrrr");
       b,_ := json.Marshal(map[string]string{"ecode":"no user","emsg":"has no user found."});
       return string(b);
    }
@@ -71,6 +70,94 @@ func Register(ctx *web.Context,v string) string{
 
    return "ok";
 }
+
+func AddThing(ctx *web.Context,v string) string{
+	//check login status
+	if getSession(ctx,"user") == nil{
+		b,_ := json.Marshal(map[string]string{"ecode":"no login","emsg":"please login at first."});
+		return string(b);
+	}
+	
+	prams := ctx.Request.Params;
+	
+	db := GetDbClient();
+	if(db == nil){
+      return "db conn err";
+	}
+	err := db.Query("insert into things (username,content) values('" + getSession(ctx,"user")["username"] + ",'" + prams["content"] + "')");
+    if err != nil{
+       log.Printf("%v\n",err);
+       return "db insert things error";
+    }
+	db.Close();
+	
+    return "ok";
+}
+
+
+func DelThing(ctx *web.Context,v string) string{
+	if getSession(ctx,"user") == nil{
+		b,_ := json.Marshal(map[string]string{"ecode":"no login","emsg":"please login at first."});
+		return string(b);
+	}
+	
+	prams := ctx.Request.Params;
+	
+	db := GetDbClient();
+	if(db == nil){
+      return "db conn err";
+	}
+	
+	err := db.Query("delete things where id = " +  prams["id"]);
+    if err != nil{
+       log.Printf("%v\n",err);
+       return "db delete things error";
+    }
+	db.Close();
+	
+    return "ok";
+}
+
+func QueryThing(ctx *web.Context,v string) string{
+	//check login status
+	if getSession(ctx,"user") == nil{
+		b,_ := json.Marshal(map[string]string{"ecode":"no login","emsg":"please login at first."});
+		return string(b);
+	}
+	
+	prams := ctx.Request.Params;
+	
+	db := GetDbClient();
+	if(db == nil){
+      return "db conn err";
+	}
+	err := db.Query("select * from things where username = '" + getSession(ctx,"user")["username"] + "' order by time_create");
+    if err != nil{
+       log.Printf("%v\n",err);
+       return "db select things error";
+    }
+	
+	result,err := db.UseResult();
+    if err != nil{
+       log.Printf("%v\n",err);
+       return "db UseResult thins result err";
+    }
+	var thingsArray = [result.RowCount()]mysql.Map;
+	index := 0;
+    for { 
+	   thing := result.FetchMap();
+	   if row == nil {  
+		  break;
+       }
+	   thingsArray[index] = thing;
+	}
+	
+	db.Close();
+	
+    b,_ := json.Marshal(thingsArray);
+    return string(b);
+}
+
 
 var sessionMap map[string]map[string]interface{};
 
@@ -107,6 +194,8 @@ func GetDbClient() *mysql.Client{
    
    return client;
 }
+
+
 
 
 func main() {

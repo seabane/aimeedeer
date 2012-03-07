@@ -39,13 +39,15 @@
 		</div>
     </div>
 	<script>
-		$("#loginBTN").click(function(){
+	
+		var loginFunction = function(){
 			$.getJSON('/service/user/login',{username:$("#username").val(),password:$("#password").val()},function(data) {
 				$("#loginBefore").hide();
 				$("#loginAfter").show();
 				$("#usernameShow").val(data.nickname);
 			});
-		});
+		}();
+		$("#loginBTN").click(loginFunction);
 	</script>
   </body>
 </html>
