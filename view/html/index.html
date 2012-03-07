@@ -9,17 +9,17 @@
   <body>
     <div class="content">
 		<div class="header">
-	      <img height="50px" width="240px" src="/resource/pic/logo_w.png" /></span>
+		  <img height="50px" width="240px" src="/resource/pic/logo_w.png" /></span>
 		</div>
 		<div class="left-box">
 			<form class="login_form" method="post" action="/action/user/login">
 				<table id="loginBefore">
-					<tr><td>用户名:</td><td><input name="username" type="text" id="username"/></td></tr>
+					<tr><td>用户名:</td><td><input name="username" type="text" id="username"/></></td></tr>
 					<tr><td>密码:</td><td><input name="password" type="password" id="password"/></td></tr>
 					<tr><td colspan="2" align="right"><input id="loginBTN" value="登录" type="button"/></td></tr>
 				</table>
 				<table id="loginAfter" style="display:none">
-					<tr><td colspan="2" align="right">hi,<div id="usernameShow"></div></tr>
+					<tr><td colspan="2" align="right"><div id="usernameShow"></div></tr>
 					<tr><td colspan="2" align="right"><div>已登录</div></td></tr>
 					<tr><td colspan="2" align="right"></td></tr>
 				</table>
@@ -39,13 +39,14 @@
 		</div>
     </div>
 	<script>
-	
 		var loginFunction = function(){
-			$.getJSON('/service/user/login',{username:$("#username").val(),password:$("#password").val()},function(data) {
+		   $.getJSON('/service/user/login',{username:$("#username").val(),password:$("#password").val()},function(data) {
+	          if(!data.ecode){
 				$("#loginBefore").hide();
-				$("#loginAfter").show();
-				$("#usernameShow").val(data.nickname);
-			});
+                $("#loginAfter").show();
+                $("#usernameShow").html("hi," + data.nickname);
+		      }
+		   });
 		}();
 		$("#loginBTN").click(loginFunction);
 	</script>
