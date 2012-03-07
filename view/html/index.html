@@ -9,7 +9,7 @@
   <body>
     <div class="content">
 		<div class="header">
-	      <img height="50px" width="240px" src="/resource/pic/logo_w.png" /></span>
+		  <img height="50px" width="240px" src="/resource/pic/logo_w.png" /></span>
 		</div>
 		<div class="left-box">
 			<form class="login_form" method="post" action="/action/user/login">
@@ -41,14 +41,13 @@
 	<script>
 		var loginFunction = function(){
 		   $.getJSON('/service/user/login',{username:$("#username").val(),password:$("#password").val()},function(data) {
-                 //     $.each(data,function(k,v){alert(k + "=" + v);});
-		      if(!data.isSuc){
+	              if(!data.ecode){
 		         $("#loginBefore").hide();
                          $("#loginAfter").show();
-                         $("#usernameShow").val(data.nickname);
+                         $("#usernameShow").html("hi," + data.nickname);
 		      }
 		   });
-		};
+		}();
 		$("#loginBTN").click(loginFunction);
 	</script>
   </body>

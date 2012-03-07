@@ -43,7 +43,6 @@ func Login(ctx *web.Context,v string) string {
    db.Close();
 
    if u == nil || len(u) == 0 {
-      log.Printf("eerrrr");
       b,_ := json.Marshal(map[string]string{"ecode":"no user","emsg":"has no user found."});
       return string(b);
    }
