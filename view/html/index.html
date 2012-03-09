@@ -12,7 +12,7 @@
 		  <img height="50px" width="240px" src="/resource/pic/logo_w.png" /></span>
 		</div>
 		<div class="left-box">
-			<form class="login_form" method="post" action="/action/user/login">
+			<form class="login_form" method="post">
 				<table id="loginBefore">
 					<tr><td>用户名:</td><td><input name="username" type="text" id="username"/></></td></tr>
 					<tr><td>密码:</td><td><input name="password" type="password" id="password"/></td></tr>
@@ -28,11 +28,12 @@
 		<div class="center-box">
 			<div class="entry-box">
 				<div class="entry-title">输入</div>
-				<p><form method="post" action="/action/casesheet/add"><input type="text" name="caseText" style="width:600px"/><input type="button" value="提交"/></form></p>
+				<p><form method="post"><input type="text" id="thing-content" style="width:600px"/><input id="thing-add" type="button" value="提交"/></form></p>
 			</div>
 			<div class="entry-box">
 				<div class="entry-title">内容</div>
-				<p><table></table></p>
+				<div id="dataBox">
+				</div>
 			</div>
 		</div>
 		<div class="footer">
@@ -48,11 +49,56 @@
                             $("#loginAfter").show();
                             $("#usernameShow").html("hi," + data.nickname);
 		         }
+		         refresh();
 		      }
 		   );
 		};
-		loginFunction();
+		
+		var refresh = function(){
+		   $("#dataBox").html("");
+		   $.getJSON('/service/things/query',function(data){
+		       if(!data.ecode){
+		         $.each(data,function(i,item){
+		             if(item != null){
+		                $("#dataBox").append("<p>[<a href='#' onclick=\"del('" + item.id+ "');return false;\">D</a>] | <" + item.time_create + "> --> " + item.content  + "</p>");
+		             }
+		         });
+		       } else {
+		          $("#dataBox").append("<p>" + data.emsg  + "</p>");
+		       }
+		       
+		   });
+		};
+
+		var addFunction = function(){
+		  $.getJSON('/service/things/add',{content:$("#thing-content").val()},function(data){
+		    $("#thing-content").val("");
+		    refresh();		
+		  });
+		};
+
+                function del(id){
+	          if(!confirm("delete it.ok?")) {
+                     return;
+		  }									
+                  $.getJSON('/service/things/del',{id:id},function(data){
+                    refresh();
+                  });
+                }
+		
+		
+		$("#thing-add").click(addFunction);;
 		$("#loginBTN").click(loginFunction);
+
+		loginFunction();
+
+		$("#thing-content").keypress(function(event) {
+                  if ( event.which == 13 ) {
+                       addFunction();
+		       return false;
+                  }																	    
+                 });
+                $("#thing-content").focus();
 	</script>
   </body>
 </html>

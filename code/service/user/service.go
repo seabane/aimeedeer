@@ -95,7 +95,7 @@ func AddThing(ctx *web.Context,v string) string{
     }
 	db.Close();
 	
-    return "ok";
+    return "{}";
 }
 
 
@@ -119,7 +119,7 @@ func DelThing(ctx *web.Context,v string) string{
     }
 	db.Close();
 	
-    return "ok";
+    return "{}";
 }
 
 type things struct{
@@ -145,7 +145,7 @@ func QueryThing(ctx *web.Context,v string) string{
 	if(db == nil){
       return "db conn err";
 	}
-	stmt,err := db.Prepare("select * from things where username = ? order by time_create");
+	stmt,err := db.Prepare("select * from things where username = ? order by time_create desc");
     if err != nil{
        log.Printf("%v\n",err);
        return "db select things error";
@@ -158,7 +158,7 @@ func QueryThing(ctx *web.Context,v string) string{
     stmt.BindResult(&thing.id,&thing.username,&thing.time_create,&thing.content)
 
     
-    list := make([]map[string]string,1,100);
+    list := make([]map[string]string,500);
     i := 0;
     for {  
        eof, _ := stmt.Fetch()  
@@ -169,7 +169,6 @@ func QueryThing(ctx *web.Context,v string) string{
        i++;
     }
     db.Close();
-    log.Printf("i=%v,len(list=%v,list=%v",i,len(list),list);
     b,_ := json.Marshal(list);
     return string(b);
     
