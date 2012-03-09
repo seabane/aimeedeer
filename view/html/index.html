@@ -40,14 +40,18 @@
     </div>
 	<script>
 		var loginFunction = function(){
-		   $.getJSON('/service/user/login',{username:$("#username").val(),password:$("#password").val()},function(data) {
-	          if(!data.ecode){
-				$("#loginBefore").hide();
-                $("#loginAfter").show();
-                $("#usernameShow").html("hi," + data.nickname);
+		   $.getJSON('/service/user/login',
+		      {username:$("#username").val(),password:$("#password").val()},
+		      function(data) {
+	                 if(!data.ecode){
+		            $("#loginBefore").hide();
+                            $("#loginAfter").show();
+                            $("#usernameShow").html("hi," + data.nickname);
+		         }
 		      }
-		   });
-		}();
+		   );
+		};
+		loginFunction();
 		$("#loginBTN").click(loginFunction);
 	</script>
   </body>

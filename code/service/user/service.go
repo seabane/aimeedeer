@@ -7,7 +7,10 @@ import (
    "github.com/hoisie/web.go"
    "rand"
    "strconv"
+   "fmt"
 )
+
+
 
 func Login(ctx *web.Context,v string) string { 
    log.Printf("start login");
@@ -77,16 +80,17 @@ func AddThing(ctx *web.Context,v string) string{
 		b,_ := json.Marshal(map[string]string{"ecode":"no login","emsg":"please login at first."});
 		return string(b);
 	}
-	
+	sessionUser := getSession(ctx,"user");
+	user := sessionUser.(mysql.Map);
 	prams := ctx.Request.Params;
 	
 	db := GetDbClient();
 	if(db == nil){
       return "db conn err";
 	}
-	err := db.Query("insert into things (username,content) values('" + getSession(ctx,"user")["username"] + ",'" + prams["content"] + "')");
+	err := db.Query("insert into things (username,content) values('" + user["username"].(string) + "','" + prams["content"] + "')");
     if err != nil{
-       log.Printf("%v\n",err);
+       log.Printf("%v\n,sql:%v",err,"insert into things (username,content) values('" + user["username"].(string) + "','" + prams["content"] + "'");
        return "db insert things error";
     }
 	db.Close();
@@ -108,7 +112,7 @@ func DelThing(ctx *web.Context,v string) string{
       return "db conn err";
 	}
 	
-	err := db.Query("delete things where id = " +  prams["id"]);
+	err := db.Query("delete from things where id = " +  prams["id"]);
     if err != nil{
        log.Printf("%v\n",err);
        return "db delete things error";
@@ -118,44 +122,57 @@ func DelThing(ctx *web.Context,v string) string{
     return "ok";
 }
 
+type things struct{
+     id string
+     username string
+     time_create string
+     content string
+
+}
+
 func QueryThing(ctx *web.Context,v string) string{
 	//check login status
 	if getSession(ctx,"user") == nil{
-		b,_ := json.Marshal(map[string]string{"ecode":"no login","emsg":"please login at first."});
-		return string(b);
+	   log.Printf("%v\n",getSession(ctx,"user"));
+	   b,_ := json.Marshal(map[string]string{"ecode":"no login","emsg":"please login at first."});
+	   return string(b);
 	}
 	
-	prams := ctx.Request.Params;
+	sessionUser := getSession(ctx,"user");
+	user := sessionUser.(mysql.Map);
 	
 	db := GetDbClient();
 	if(db == nil){
       return "db conn err";
 	}
-	err := db.Query("select * from things where username = '" + getSession(ctx,"user")["username"] + "' order by time_create");
+	stmt,err := db.Prepare("select * from things where username = ? order by time_create");
     if err != nil{
        log.Printf("%v\n",err);
        return "db select things error";
     }
 	
-	result,err := db.UseResult();
-    if err != nil{
-       log.Printf("%v\n",err);
-       return "db UseResult thins result err";
+    stmt.BindParams(user["username"].(string));
+    stmt.Execute();
+
+    thing := things{};
+    stmt.BindResult(&thing.id,&thing.username,&thing.time_create,&thing.content)
+
+    
+    list := make([]map[string]string,1,100);
+    i := 0;
+    for {  
+       eof, _ := stmt.Fetch()  
+       if eof {  
+          break  
+       }  
+       list[i] = map[string]string{"id":thing.id,"username":thing.username,"time_create":thing.time_create,"content":thing.content};
+       i++;
     }
-	var thingsArray = [result.RowCount()]mysql.Map;
-	index := 0;
-    for { 
-	   thing := result.FetchMap();
-	   if row == nil {  
-		  break;
-       }
-	   thingsArray[index] = thing;
-	}
-	
-	db.Close();
-	
-    b,_ := json.Marshal(thingsArray);
+    db.Close();
+    log.Printf("i=%v,len(list=%v,list=%v",i,len(list),list);
+    b,_ := json.Marshal(list);
     return string(b);
+    
 }
 
 
@@ -165,7 +182,9 @@ func putSession(ctx *web.Context,key string,value interface{}){
    sessionid, _ := ctx.GetSecureCookie("sessionid");
    if sessionid == ""{
       sessionid = strconv.Itoa64(rand.Int63())
-      ctx.SetSecureCookie("sessionid", sessionid, 3600)
+      //ctx.SetSecureCookie("sessionid", sessionid, 3600)
+      cookie := fmt.Sprintf("%s=%s;path=/;", key, sessionid)
+      ctx.SetHeader("Set-Cookie", cookie, false)
       log.Printf("create session:session id=%v",sessionid);
    }
    if sessionMap == nil{
@@ -179,8 +198,16 @@ func putSession(ctx *web.Context,key string,value interface{}){
 }
 
 func getSession(ctx *web.Context,key string) interface{}{
-   sessionid, _ := ctx.GetSecureCookie("sessionid");
-   return sessionMap[sessionid][key];
+   //sessionid, err := ctx.GetSecureCookie("sessionid");
+   for _, cookie := range ctx.Request.Cookie {
+        if cookie.Name != key {
+            continue
+        }
+
+        return sessionMap[cookie.Value][key];
+   }
+   
+   return nil;
 }
  
 
@@ -200,7 +227,10 @@ func GetDbClient() *mysql.Client{
 
 func main() {
     web.Config.CookieSecret = "66d337519aa14ac4ac150f8569e2b719";
-    web.Get("/service/user/login?(.*)", Login);
-    web.Get("/service/user/register?(.*)", Register);
+    web.Get("/user/login?(.*)", Login);
+    web.Get("/user/register?(.*)", Register);
+    web.Get("/things/query?(.*)",QueryThing);
+    web.Get("/things/del?(.*)",DelThing);
+    web.Get("/things/add?(.*)",AddThing);
     web.Run("0.0.0.0:8080");
 }
